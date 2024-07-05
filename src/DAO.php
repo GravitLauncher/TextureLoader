@@ -62,7 +62,7 @@ class DAO {
 
     function updateAvatarCache(string $skinHash, string $avatarHash, int $scale): void {
         $sql = match($this->dialect) {
-            "mysql" => "INSERT INTO user_assets_avatarcache (skinHash, avatarHash, scale) VALUES (:skinHash, :avatarHash, :scale) ON DUPLICATE KEY DO UPDATE SET avatarHash = :avatarHash",
+            "mysql" => "INSERT INTO user_assets_avatarcache (skinHash, avatarHash, scale) VALUES (:skinHash, :avatarHash, :scale) ON DUPLICATE KEY UPDATE SET avatarHash = :avatarHash",
             "pgsql" => "INSERT INTO user_assets_avatarcache (skinHash, avatarHash, scale) VALUES (:skinHash, :avatarHash, :scale) ON CONFLICT (skinHash, scale) DO UPDATE SET avatarHash = :avatarHash"
         };
         $stmt = $this->pdo->prepare($sql);
